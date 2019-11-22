@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opsmarttech.toyota.storeflow.mapper.Result1Mapper">
+
+    <resultMap id="BaseResultMap" type="com.opsmarttech.toyota.storeflow.model.entity.Result1">
+        <result column="NODEID" property="nodeid" />
+        <result column="USERID" property="userid" />
+        <result column="CUSTOMID" property="customid"/>
+        <result column="AREAID" property="areaid"/>
+        <result column="CITYID" property="cityid"/>
+        <result column="BEGINDATE" property="begindate"/>
+        <result column="ENDDATE" property="enddate"/>
+        <result column="DIMID" property="dimid"/>
+        <result column="VALUE" property="value"/>
+        <result column="CYCLEID" property="cycleid"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+	    NODEID, USERID, CUSTOMID, AREAID, CITYID, BEGINDATE, ENDDATE, DIMID, VALUE, CYCLEID
+  	</sql>
+
+    <select id="queryStoreFlow" parameterType="int" resultType="com.opsmarttech.toyota.storeflow.model.entity.Result1">
+        select
+        <include refid="Base_Column_List" />
+        from "data_result_v26"."result1"
+        where 1 != 1
+        or
+        (
+            BEGINDATE > 20190430 and DIMID = 19 and NODEID = #{nodeId,jdbcType=INTEGER}
+        )
+        order by BEGINDATE asc
+    </select>
+
+    <select id="queryExchbInfoV1" parameterType="int" resultType="com.opsmarttech.toyota.storeflow.model.entity.Result1">
+        select
+        <include refid="Base_Column_List" />
+        from "data_result_v26"."result1"
+        where 1 != 1
+        or
+        (
+        BEGINDATE &gt; #{date1,jdbcType=INTEGER} and BEGINDATE &lt; #{date2,jdbcType=INTEGER} and DIMID = #{dimId,jdbcType=INTEGER} and NODEID = #{nodeId,jdbcType=INTEGER}
+        )
+        order by BEGINDATE asc
+    </select>
+
+    <select id="querySwatchInfo" parameterType="int" resultType="com.opsmarttech.toyota.storeflow.model.entity.Result1">
+        select
+        <include refid="Base_Column_List" />
+        from "data_result_v26"."result1"
+        where 1 != 1
+        or
+        (
+        BEGINDATE &gt; #{date1,jdbcType=INTEGER} and BEGINDATE &lt; #{date2,jdbcType=INTEGER} and DIMID = #{dimId,jdbcType=INTEGER} and NODEID = #{nodeId,jdbcType=INTEGER}
+        )
+        order by BEGINDATE asc
+    </select>
+
+</mapper>

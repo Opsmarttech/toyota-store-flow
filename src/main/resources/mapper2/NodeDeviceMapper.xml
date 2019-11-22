@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opsmarttech.toyota.storeflow.mapper2.NodeDeviceMapper">
+
+    <resultMap id="BaseResultMap" type="com.opsmarttech.toyota.storeflow.model.entity.sub1.NodeDevice">
+        <result column="nodeID" property="nodeId" />
+        <result column="serial" property="serial" />
+        <result column="beginTime" property="beginTime"/>
+        <result column="endTime" property="endTime"/>
+        <result column="status" property="status"/>
+        <result column="bindTime" property="bindTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+	    nodeID, serial, beginTime, endTime, status, bindTime
+  	</sql>
+
+    <select id="queryNodeInfo" parameterType="String" resultType="com.opsmarttech.toyota.storeflow.model.entity.sub1.NodeDevice">
+        select
+        <include refid="Base_Column_List" />
+        from `ent_module_v26`.`node_device`
+        where 1 != 1
+        or
+        (
+            `serial` = #{deviceSerial,jdbcType=VARCHAR}
+        )
+        order by beginTime asc
+    </select>
+
+</mapper>

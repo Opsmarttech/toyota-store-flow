@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opsmarttech.toyota.storeflow.mapper.Result5Mapper">
+
+    <resultMap id="BaseResultMap" type="com.opsmarttech.toyota.storeflow.model.entity.Result5">
+        <result column="NODEID" property="nodeid" />
+        <result column="USERID" property="userid" />
+        <result column="CUSTOMID" property="customid"/>
+        <result column="AREAID" property="areaid"/>
+        <result column="CITYID" property="cityid"/>
+        <result column="DATE" property="date"/>
+        <result column="DIMID" property="dimid"/>
+        <result column="VALUE" property="value"/>
+        <result column="CYCLEID" property="cycleid"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+	    NODEID, USERID, CUSTOMID, AREAID, CITYID, DATE, DIMID, VALUE, CYCLEID
+  	</sql>
+
+    <select id="queryActive" parameterType="int" resultType="com.opsmarttech.toyota.storeflow.model.entity.Result5">
+        select
+        <include refid="Base_Column_List" />
+        from "data_result_v26"."result5"
+        where 1 != 1
+        or
+        (
+        DATE &gt; #{date1,jdbcType=INTEGER} and DATE &lt; #{date2,jdbcType=INTEGER} and DIMID = #{dimId,jdbcType=INTEGER} and NODEID = #{nodeId,jdbcType=INTEGER}
+        )
+        order by DATE asc
+    </select>
+
+</mapper>

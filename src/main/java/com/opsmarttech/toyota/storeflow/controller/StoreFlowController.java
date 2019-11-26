@@ -63,6 +63,35 @@ public class StoreFlowController {
         return new JSONObject();
     }
 
+    @RequestMapping(value = "/queryActive", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject fetchActiveInfo(@RequestBody JSONObject jsonParam) {//查在线率
+        try {
+            int dateBegin = jsonParam.getInteger("begin");
+            int dateEnd = jsonParam.getInteger("end");
+            int dimid = jsonParam.getInteger("dimid");
+            JSONArray jsonArray = jsonParam.getJSONArray("arr");
+            if(jsonArray == null || jsonArray.size() == 0) throw new Exception("input device number is empty");
+            HashMap<String, HashMap<Integer, List<Result1>>> deviceRefData = new HashMap<>();
+            for(int i = 0; i < jsonArray.size(); i ++) {
+                String deviceSerial = jsonArray.getString(i);
+                List<NodeDevice> list = nodeDeviceService.queryNodeInfo(deviceSerial);
+                HashMap<Integer, List<Result1>> innerMap = new HashMap<>();
+                for(NodeDevice device : list) {
+                    int nodeId = device.getNodeId();
+                    List<Result1> dataList = result1Service.queryExchbInfoV1(dateBegin, dateEnd, dimid, nodeId);
+                    innerMap.put(device.getNodeId(), dataList);
+                }
+                deviceRefData.put(deviceSerial, innerMap);
+            }
+            System.out.println(deviceRefData.toString());
+            writeForV1(deviceRefData, dateBegin, dateEnd);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return new JSONObject();
+    }
+
     @ResponseBody
     @RequestMapping(value = "/fetchStroeFlow/{nodeId}", method = RequestMethod.POST)
     public List<ExcelVo> fetchStoreFlowData(@PathVariable("nodeId")int nodeId) {

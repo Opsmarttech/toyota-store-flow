@@ -291,7 +291,7 @@ public class StoreFlowController {
             Workbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet();
             Row title = sheet.createRow(0);
-            List<String> dateTitles = getDateRangeStrings(2019, 5, 11, 2019, 11, 17);
+            List<String> dateTitles = getDateRangeStrings(2020, 2020, 00, 01, 1, 1);
             int cellCount = dateTitles.size() + 6;
             for(int cellIndex = 0; cellIndex < cellCount; cellIndex ++ ) {
                 Cell cell = title.createCell(cellIndex);
@@ -347,7 +347,7 @@ public class StoreFlowController {
                 }
             }
 
-            Resource resource = new ClassPathResource("static/export.xlsx");
+            Resource resource = new ClassPathResource("static/export_v1.xlsx");
             File file = resource.getFile();
             file.createNewFile();
             try(FileOutputStream fos = new FileOutputStream(file)) {
